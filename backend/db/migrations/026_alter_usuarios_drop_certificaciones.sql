@@ -1,0 +1,11 @@
+-- Revierte la parte de "certificaciones_productor" de la migracion 023 --
+-- se decidio no seguir con ese campo autodeclarado: una certificacion la
+-- otorga un tercero auditor, no el propio productor marcandose casillas.
+-- El actor correcto para esto es el paso de Certificacion dentro de
+-- Procesamiento en la cadena de trazabilidad (registros_procesamiento /
+-- certificaciones), que este cambio NO toca. No se edita la 023 (ya
+-- aplicada) ni se tocan asociacion_cooperativa/practicas_agricolas/
+-- codigo_productor (misma migracion, siguen vigentes). Mismo patron que la
+-- migracion 022 (revierte 021 sin editarla). SQLite soporta DROP COLUMN
+-- nativo desde 3.35 (aqui: 3.53), no hace falta recrear la tabla.
+ALTER TABLE usuarios DROP COLUMN certificaciones_productor;

@@ -1,0 +1,358 @@
+* {
+  box-sizing: border-box;
+}
+
+.layout {
+  text-align: left;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.layout__marca {
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.layout__usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.layout__contenido {
+  flex: 1;
+  padding: 24px;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* LoginPage.jsx: la unica pagina que todavia usaba las variables --text/
+   --bg/--border/--accent originales del scaffold de Vite (index.css) en
+   vez de --pub-* -- confirmado por grep, .pantalla-centrada/.tarjeta/
+   .formulario/.subtitulo/.enlace-volver no se usan en ningun otro lugar
+   del proyecto, asi que se migran sin riesgo de romper nada mas. Mismos
+   tokens y valores ya auditados con WCAG que usan landing/ficha publica/
+   panel interno -- ver .pantalla-centrada[data-tema] en paleta.css. */
+.pantalla-centrada {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--pub-bg);
+  font-family: var(--pub-font-body);
+}
+
+.login-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.marca-login {
+  font-family: var(--pub-font-heading);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--pub-brand);
+  margin: 0;
+}
+
+.subtitulo {
+  color: var(--pub-text-soft);
+  margin-bottom: 16px;
+}
+
+.enlace-volver {
+  align-self: center;
+  font-size: 13px;
+  color: var(--pub-text-soft);
+  text-decoration: none;
+}
+
+.tarjeta {
+  border: 1px solid var(--pub-border);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--pub-card-bg);
+  box-shadow: 0 4px 14px var(--pub-shadow);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.formulario fieldset {
+  border: 1px solid var(--pub-border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formulario legend {
+  padding: 0 8px;
+  font-weight: 600;
+  color: var(--pub-text);
+}
+
+.formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--pub-text);
+}
+
+.formulario input,
+.formulario select {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--pub-border);
+  border-radius: 6px;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+}
+
+/* Chrome fuerza su propio tinte azulado en inputs autocompletados
+   (:-webkit-autofill), ignorando `background` normal -- se nota
+   especialmente en modo claro, donde ese azul desentona con --pub-bg. El
+   truco estandar es un box-shadow inset (si tiene prioridad sobre el
+   estilo nativo de autofill); el transition largo evita el flash de color
+   que Chrome anima al autocompletar. */
+.formulario input:-webkit-autofill,
+.formulario input:-webkit-autofill:hover,
+.formulario input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--pub-text);
+  -webkit-box-shadow: 0 0 0px 1000px var(--pub-bg) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.formulario button,
+.boton-enlace {
+  font: inherit;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--pub-accent);
+  color: #fffcf7;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.formulario button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pantalla-centrada .mensaje-error {
+  color: var(--pub-danger);
+}
+
+.layout__usuario button {
+  font: inherit;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.opciones-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.opciones-radio label {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.campo-ubicacion {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo-ubicacion button {
+  font: inherit;
+  padding: 8px 12px;
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.texto-ubicacion {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.texto-tenue {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.mensaje-error {
+  color: #d92d20;
+  font-size: 14px;
+}
+
+.grid-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.tarjeta--accion {
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s ease;
+}
+
+.tarjeta--accion:hover {
+  box-shadow: var(--shadow);
+}
+
+.tarjeta--accion h2 {
+  margin-bottom: 6px;
+}
+
+.tarjeta--accion p {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.tarjeta--deshabilitada {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.etiqueta-proximamente {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.encabezado-lista {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.encabezado-lista h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.lista-registros {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tarjeta--registro__encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.estado {
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.estado--borrador {
+  background: rgba(217, 119, 6, 0.15);
+  color: #d97706;
+}
+
+.estado--validado {
+  background: rgba(22, 163, 74, 0.15);
+  color: #16a34a;
+}
+
+.estado--pendiente {
+  background: rgba(217, 119, 6, 0.15);
+  color: #d97706;
+}
+
+.estado--aprobado {
+  background: rgba(22, 163, 74, 0.15);
+  color: #16a34a;
+}
+
+.estado--rechazado {
+  background: rgba(217, 45, 32, 0.15);
+  color: #d92d20;
+}
+
+.boton {
+  font: inherit;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.boton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.boton--secundario {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-h);
+}
+
+.tarjeta--registro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tarjeta--registro p {
+  margin: 2px 0;
+}

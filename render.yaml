@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: raiz-backend
+    runtime: node
+    plan: starter
+    region: oregon
+    rootDir: backend
+    buildCommand: npm install
+    # migrate y seed son idempotentes (schema_migrations + ON CONFLICT DO
+    # NOTHING), asi que es seguro correrlos en cada deploy.
+    startCommand: npm run migrate && npm run seed && npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 24.16.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      - key: DATA_DIR
+        value: /var/data
+      # URL(s) del frontend en Vercel, separadas por coma si hay varias
+      # (produccion + preview). Se completa despues del primer deploy de
+      # Vercel -- ver docs/CONTEXTO.md o el mensaje de deploy.
+      - key: FRONTEND_URL
+        sync: false
+    disk:
+      name: raiz-data
+      mountPath: /var/data
+      sizeGB: 1

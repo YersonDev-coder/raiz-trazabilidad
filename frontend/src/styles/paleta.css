@@ -1,0 +1,211 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+/* Paleta de color unica para TODA la plataforma (landing, catalogo,
+   trazabilidad publica, y panel interno de los 7 roles). Antes estos
+   mismos nombres de variable estaban DUPLICADOS palabra por palabra en
+   publico.css (bajo `.publico`) y panelProductor.css (bajo
+   `.panel-productor`) -- cambiar un color exigia tocar dos archivos y
+   mantenerlos sincronizados a mano (asi se origino el bug de `.boton`
+   documentado en docs/CONTEXTO.md). Ahora se definen una sola vez aqui,
+   en `:root`, e importado una sola vez en main.jsx antes que cualquier
+   otra hoja de estilos -- toda pantalla nueva las hereda automaticamente
+   sin tener que redeclararlas.
+
+   Sigue siendo un tema OSCURO por decision del producto; el bloque
+   `prefers-color-scheme: dark` de abajo es la paleta que de hecho se ve
+   en la practica (Chrome/el entorno de pruebas siempre reporto modo
+   oscuro). El bloque claro (valores por defecto, fuera del media query)
+   se mantiene como resguardo para quien navegue con el SO en modo claro,
+   pero no es el foco de este rediseño.
+
+   Tipografia: Fraunces (titulos, serif editorial) + Plus Jakarta Sans
+   (cuerpo/UI). Antes del rediseño de la ficha de trazabilidad el proyecto
+   no cargaba ninguna tipografia propia -- todo corria en la pila del
+   sistema (Segoe UI/system-ui), a pesar de que varias sesiones anteriores
+   ya se referian a "Fraunces + Plus Jakarta Sans" como si existieran.
+   Se definen aqui junto a los tokens de color para que cualquier pantalla
+   publica nueva las herede automaticamente sin re-declararlas.
+
+   Jerarquia de superficies (el problema que se corrigio en esta sesion):
+   antes `--pub-bg` y `--pub-card-bg` eran visualmente casi identicos
+   (contraste WCAG 1.09:1, es decir, practicamente el mismo tono), lo que
+   hacia que toda la pagina se sintiera "un solo marron" sin separacion
+   entre fondo/tarjetas/paneles. Ahora hay 4 niveles de superficie con
+   pasos de luminosidad reales y verificados (ver docs/CONTEXTO.md,
+   seccion "Paleta de color"):
+     bg (nivel 0, fondo de pagina)
+       < bg-alt (nivel 1, franjas/iconos recesados)
+         < card-bg (nivel 2, tarjetas y paneles)
+           < card-bg-2 (nivel 3, elementos anidados/hover dentro de una
+             tarjeta: chips, fieldsets, filas activas)
+   El marron/cafe saturado queda reservado para ACENTOS puntuales
+   (--pub-brand para titulos/identidad, --pub-accent para botones/CTAs)
+   en vez de superficies grandes completas. */
+:root {
+  /* Tipografia (ver comentario arriba) */
+  --pub-font-heading: "Fraunces", Georgia, serif;
+  --pub-font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Superficies: base clara (resguardo para prefers-color-scheme: light) */
+  --pub-bg: #f5e9da;
+  --pub-bg-alt: #eeddc4;
+  --pub-card-bg: #fffdf9;
+  --pub-card-bg-2: #f7ecdb;
+
+  /* Texto */
+  --pub-text: #3b2415;
+  --pub-text-soft: #7a5a44;
+
+  /* Identidad y acentos */
+  --pub-brand: #7b3f1d;
+  --pub-accent: #c1440e;
+  --pub-accent-rgb: 193, 68, 14;
+  --pub-accent-2: #8b6818;
+  --pub-accent-2-rgb: 139, 104, 24;
+
+  --pub-border: #e3cba9;
+  --pub-shadow: rgba(59, 36, 21, 0.14);
+
+  /* Estados semanticos (validado/borrador/rechazado) */
+  --pub-success: #1d723c;
+  --pub-success-rgb: 29, 114, 60;
+  --pub-warning: #9a5704;
+  --pub-warning-rgb: 154, 87, 4;
+  --pub-danger: #b62a20;
+  --pub-danger-rgb: 182, 42, 32;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Superficies: 4 niveles con separacion real (ver comentario arriba) */
+    --pub-bg: #15120e;
+    --pub-bg-alt: #211c17;
+    --pub-card-bg: #302822;
+    --pub-card-bg-2: #41372f;
+
+    /* Texto: se revisaron ambos contra los 4 niveles de superficie, el
+       peor caso (texto secundario sobre card-bg-2) da 5.5:1, por encima
+       del minimo AA de 4.5:1 */
+    --pub-text: #f6ecdc;
+    --pub-text-soft: #c9ae95;
+
+    /* Identidad y acentos: --pub-brand sin cambios (ya tenia buen
+       contraste, 10:1+ en cualquier superficie); --pub-accent se oscurecio
+       un poco respecto al valor anterior (#e2703a) porque el texto blanco
+       de los botones daba solo 3.1:1 sobre el, por debajo del minimo AA
+       de 4.5:1 para texto normal -- con este tono dan 5:1 sin perder
+       saturacion/calidez. */
+    --pub-brand: #e8b978;
+    --pub-accent: #bb501b;
+    --pub-accent-rgb: 187, 80, 27;
+    --pub-accent-2: #d9a441;
+    --pub-accent-2-rgb: 217, 164, 65;
+
+    --pub-border: #4a342a;
+    --pub-shadow: rgba(0, 0, 0, 0.5);
+
+    /* Estados semanticos: version mas clara/saturada que el modo claro
+       para mantener 4.5:1+ sobre fondos oscuros (los valores de modo
+       claro fallaban aqui: verde 3.3:1, ambar 2.9:1) */
+    --pub-success: #59cf84;
+    --pub-success-rgb: 89, 207, 132;
+    --pub-warning: #e0932a;
+    --pub-warning-rgb: 224, 147, 42;
+    --pub-danger: #e7726a;
+    --pub-danger-rgb: 231, 114, 106;
+  }
+}
+
+/* Toggle claro/oscuro GLOBAL -- estado en TemaContext.jsx (Context de
+   React + localStorage, clave "raiz_tema"), compartido entre landing,
+   ficha de trazabilidad (`.publico`), panel interno de los 7 roles
+   (`.panel-productor`, ver PanelLayout.jsx -- un solo layout compartido
+   por todos los roles pese al nombre de archivo) Y /login
+   (`.pantalla-centrada`, ver LoginPage.jsx/App.css -- la unica pagina que
+   todavia usaba las variables --text/--bg/--accent originales del scaffold
+   de Vite en vez de --pub-*, migrada en el mismo paso). panelProductor.css
+   ya consumia estos mismos tokens --pub-* extensamente (badges de estado,
+   formularios, aviso de rechazo, etc.), asi que no hizo falta un set de
+   tokens --panel-* aparte: alcanza con sumar el selector correspondiente a
+   los mismos dos bloques de abajo cada vez. Lo unico que NO usa estos
+   tokens es la barra lateral del panel interno (fondo marron solido
+   #241408, ver panelProductor.css) -- a proposito, mismo criterio que el
+   hero de la landing: es superficie de identidad/marca, no contenido, se
+   queda fija sin importar el tema.
+
+   Ambas clases (`.publico`, `.panel-productor`) setean su propio
+   data-tema en su respectivo div raiz leyendo useTema() -- el selector
+   compuesto (clase + atributo) tiene mas especificidad que `:root` solo,
+   asi que el toggle manda independientemente de si el SO/navegador reporta
+   modo claro u oscuro -- sin preferencia guardada (primera visita, o
+   localStorage bloqueado), arranca en oscuro, sin heredar la preferencia
+   del sistema (ver TemaContext.jsx).
+
+   oscuro: mismos valores que ya existian en el bloque prefers-color-scheme
+   de arriba (sin cambios). claro: mismos valores que el resguardo de :root
+   de arriba, EXCEPTO --pub-accent/--pub-accent-2, que se oscurecieron un
+   poco respecto a ese resguardo -- verificados con calculo real de
+   contraste WCAG (no a ojo): el resguardo original daba 4.28:1 (accent
+   sobre --pub-bg) y 3.76:1 (accent-2 sobre su fondo con tinte), ambos por
+   debajo del minimo AA de 4.5:1 para texto normal (se usan a 13-14px en
+   .seccion-eyebrow / .tarjeta-producto__cta / badge-ruta--b). Con estos
+   valores dan 5.36:1 y 5.08:1 respectivamente, mismo espiritu de marca
+   (naranja/dorado de cafe), solo un poco mas oscuros. --pub-success/
+   --pub-danger tambien se verificaron para el explorador de cadena de
+   bloques (Fase 2, badge de integridad): 4.82:1 y 4.93:1 sobre su fondo
+   con tinte, ambos por encima del minimo AA -- no necesitaron ajuste. */
+.publico[data-tema="oscuro"],
+.panel-productor[data-tema="oscuro"],
+.pantalla-centrada[data-tema="oscuro"] {
+  --pub-bg: #15120e;
+  --pub-bg-alt: #211c17;
+  --pub-card-bg: #302822;
+  --pub-card-bg-2: #41372f;
+
+  --pub-text: #f6ecdc;
+  --pub-text-soft: #c9ae95;
+
+  --pub-brand: #e8b978;
+  --pub-accent: #bb501b;
+  --pub-accent-rgb: 187, 80, 27;
+  --pub-accent-2: #d9a441;
+  --pub-accent-2-rgb: 217, 164, 65;
+
+  --pub-border: #4a342a;
+  --pub-shadow: rgba(0, 0, 0, 0.5);
+
+  --pub-success: #59cf84;
+  --pub-success-rgb: 89, 207, 132;
+  --pub-warning: #e0932a;
+  --pub-warning-rgb: 224, 147, 42;
+  --pub-danger: #e7726a;
+  --pub-danger-rgb: 231, 114, 106;
+}
+
+.publico[data-tema="claro"],
+.panel-productor[data-tema="claro"],
+.pantalla-centrada[data-tema="claro"] {
+  --pub-bg: #f5e9da;
+  --pub-bg-alt: #eeddc4;
+  --pub-card-bg: #fffdf9;
+  --pub-card-bg-2: #f7ecdb;
+
+  --pub-text: #3b2415;
+  --pub-text-soft: #7a5a44;
+
+  --pub-brand: #7b3f1d;
+  --pub-accent: #a83a0c;
+  --pub-accent-rgb: 168, 58, 12;
+  --pub-accent-2: #6e5313;
+  --pub-accent-2-rgb: 110, 83, 19;
+
+  --pub-border: #e3cba9;
+  --pub-shadow: rgba(59, 36, 21, 0.14);
+
+  --pub-success: #1d723c;
+  --pub-success-rgb: 29, 114, 60;
+  --pub-warning: #9a5704;
+  --pub-warning-rgb: 154, 87, 4;
+  --pub-danger: #b62a20;
+  --pub-danger-rgb: 182, 42, 32;
+}

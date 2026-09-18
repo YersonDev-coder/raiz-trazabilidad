@@ -1,0 +1,971 @@
+/* Panel interno, con la MISMA paleta de publico.css -- ambas hojas
+   consumen las variables --pub-* centralizadas en styles/paleta.css
+   (importado globalmente en main.jsx), para que el panel se sienta como
+   la misma plataforma que la landing, no un producto aparte. Usado por
+   los 7 roles (ver components/panelInterno/PanelLayout.jsx), no solo
+   Productor -- el nombre de archivo quedo por razones historicas. */
+.panel-productor {
+  min-height: 100svh;
+  display: flex;
+  text-align: left;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.panel-productor a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Sidebar: superficie de marca, siempre marron oscuro solido sin importar
+   el tema claro/oscuro del sistema (mismo criterio que el velo del hero de
+   la landing: es identidad, no contenido). */
+.panel-productor__sidebar {
+  width: 272px;
+  flex-shrink: 0;
+  background: #241408;
+  color: #fffaf2;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px 24px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100svh;
+  overflow-y: auto;
+}
+
+.panel-productor__marca-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 20px;
+}
+
+.panel-productor__marca {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #f0c98a;
+}
+
+.panel-productor__marca-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Toggle claro/oscuro dentro de la barra lateral (fija oscura, ver
+   comentario de .panel-productor__sidebar arriba) -- mismo componente
+   ToggleTema.jsx que usan landing/ficha publica, pero con este className
+   en vez de .publico-header__tema: ahi la barra siempre esta sobre una
+   superficie clara/oscura segun el tema (--pub-brand), aca siempre esta
+   sobre el mismo marron solido #241408 sin importar el tema, asi que el
+   boton necesita su propio contraste fijo en vez de tokens --pub-*. */
+.panel-productor__tema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #fffaf2;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease-out;
+}
+
+.panel-productor__tema:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.panel-productor__cerrar-movil {
+  display: none;
+  background: none;
+  border: none;
+  color: #fffaf2;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.panel-productor__perfil {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 16px;
+}
+
+.panel-productor__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fffaf2;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.panel-productor__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panel-productor__perfil-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panel-productor__perfil-texto strong {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panel-productor__perfil-texto span {
+  font-size: 12px;
+  color: rgba(255, 250, 242, 0.65);
+}
+
+.panel-productor__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.panel-productor__nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 250, 242, 0.82);
+}
+
+.panel-productor__nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.panel-productor__nav-item.activo {
+  background: var(--pub-accent);
+  color: #fffaf2;
+}
+
+.panel-productor__nav-icono {
+  font-size: 17px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.panel-productor__salir {
+  margin-top: 16px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fffaf2;
+  cursor: pointer;
+}
+
+.panel-productor__hamburguesa {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 30;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #241408;
+  color: #fffaf2;
+  border: none;
+  font-size: 19px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.panel-productor__velo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 35;
+}
+
+/* El fondo/sidebar del panel llegan de borde a borde (.panel-productor es
+   full-width ahora que #root ya no lo encoge, ver index.css); el
+   contenido en si mantiene un max-width propio para no estirarse de
+   borde a borde en monitores muy anchos. */
+.panel-productor__contenido {
+  flex: 1;
+  min-width: 0;
+  max-width: 1180px;
+  padding: 44px 48px;
+}
+
+@media (max-width: 860px) {
+  .panel-productor__hamburguesa {
+    display: flex;
+  }
+
+  .panel-productor__cerrar-movil {
+    display: block;
+  }
+
+  .panel-productor__sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100svh;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .panel-productor__sidebar.abierto {
+    transform: translateX(0);
+  }
+
+  .panel-productor__contenido {
+    padding: 84px 20px 40px;
+  }
+}
+
+/* Encabezados y bloques de contenido reutilizables en las 5 secciones */
+.panel-titulo {
+  font-size: 28px;
+  letter-spacing: -0.4px;
+  color: var(--pub-brand);
+  margin: 0 0 8px;
+}
+
+.subtitulo-panel {
+  color: var(--pub-text-soft);
+  font-size: 14px;
+  margin: 0 0 28px;
+}
+
+.encabezado-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.encabezado-panel .panel-titulo {
+  margin-bottom: 0;
+}
+
+.tarjeta-panel {
+  background: var(--pub-card-bg);
+  border: 1px solid var(--pub-border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 14px var(--pub-shadow);
+  margin-bottom: 24px;
+}
+
+.tarjeta-panel__titulo {
+  font-size: 16px;
+  color: var(--pub-brand);
+  margin: 0 0 16px;
+}
+
+.formulario-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 480px;
+}
+
+.formulario-panel fieldset {
+  border: 1px solid var(--pub-border);
+  border-radius: 12px;
+  padding: 16px;
+  background: var(--pub-card-bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.formulario-panel legend {
+  padding: 0 8px;
+  font-weight: 700;
+  color: var(--pub-brand);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.formulario-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--pub-text);
+}
+
+.formulario-panel input,
+.formulario-panel select,
+.formulario-panel textarea {
+  font: inherit;
+  padding: 9px 12px;
+  border: 1px solid var(--pub-border);
+  border-radius: 8px;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+}
+
+.formulario-panel textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* Antes esta regla no se usaba en ningun formulario real (primer checkbox
+   real es Procesamiento cafe/cacao, ver ProcesamientoNuevoPage.jsx) -- se
+   agrega el reset de padding/border/background que ".formulario-panel
+   input" aplica a TODOS los inputs (pensado para texto/numero), porque sin
+   el un checkbox hereda ese padding/borde y se ve como una caja rota en
+   vez de un checkbox nativo. */
+.formulario-panel label.opcion-checkbox-panel {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.formulario-panel .opcion-checkbox-panel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: none;
+  accent-color: var(--pub-accent);
+}
+
+.separador-panel {
+  border: none;
+  border-top: 1px solid var(--pub-border);
+  margin: 4px 0;
+}
+
+.campo-extension-panel {
+  display: flex;
+  gap: 8px;
+}
+
+.campo-extension-panel input {
+  flex: 1;
+  min-width: 0;
+}
+
+.campo-extension-panel select {
+  flex-shrink: 0;
+  width: 110px;
+}
+
+/* Nombre distinto a ".boton" (App.css) a proposito: aunque este archivo
+   solo se importa desde componentes del panel Productor, ambas hojas
+   conviven en el mismo bundle y ".boton" con igual especificidad se
+   resuelve por orden de import, no por scope -- con nombres distintos no
+   depende de ese orden. */
+.boton-panel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--pub-accent);
+  color: #fffcf7;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.boton-panel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.boton-panel--secundario {
+  background: transparent;
+  border: 1px solid var(--pub-border);
+  color: var(--pub-text);
+}
+
+.boton-enlace-panel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--pub-accent);
+  color: #fffcf7;
+}
+
+.campo-ubicacion-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo-ubicacion-panel button {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--pub-accent);
+  background: rgba(var(--pub-accent-rgb), 0.1);
+  color: var(--pub-brand);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.texto-tenue-panel {
+  color: var(--pub-text-soft);
+  font-size: 13px;
+}
+
+.texto-exito-panel {
+  color: var(--pub-success);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.panel-productor .mensaje-error {
+  color: var(--pub-danger);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* Listas de registros (Mis registros, etc.) */
+.lista-registros-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tarjeta-registro-panel__encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tarjeta-registro-panel p {
+  margin: 3px 0;
+  font-size: 14px;
+}
+
+.estado-panel {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.estado-panel--borrador {
+  background: rgba(var(--pub-warning-rgb), 0.16);
+  color: var(--pub-warning);
+}
+
+.estado-panel--validado {
+  background: rgba(var(--pub-success-rgb), 0.16);
+  color: var(--pub-success);
+}
+
+.estado-panel--rechazado {
+  background: rgba(var(--pub-danger-rgb), 0.16);
+  color: var(--pub-danger);
+}
+
+/* Agrupa el badge de estado con el indicador de cadena de bloques (Fase 3)
+   para que .tarjeta-registro-panel__encabezado (flex + space-between)
+   siga viendo solo 2 hijos -- titulo a la izquierda, este grupo a la
+   derecha -- en vez de romper el layout con un tercer hijo suelto. */
+.badge-grupo-estado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Indicador de "este evento ya entro a la cadena hash" (Fase 3):
+   deliberadamente MAS chico y sin fondo solido que .estado-panel, para que
+   se lea como un dato secundario junto al badge de estado, no como un
+   segundo badge compitiendo por atencion. Mismo tono --pub-accent-2 que ya
+   se usa para el explorador de cadena de bloques de la ficha publica (ver
+   publico.css), asociando visualmente ambas superficies. */
+.badge-en-cadena {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pub-accent-2);
+  white-space: nowrap;
+  cursor: default;
+}
+
+/* Motivo de un registro rechazado (visible solo para quien lo creo) */
+.aviso-rechazo {
+  margin: 8px 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--pub-danger-rgb), 0.35);
+  background: rgba(var(--pub-danger-rgb), 0.08);
+  color: var(--pub-text);
+  font-size: 13.5px;
+}
+
+/* Una certificacion (fitosanitaria/aduanera) dentro de la tarjeta de un
+   lote en ValidarCertificacionesPage.jsx -- sub-tarjeta propia para que
+   cada una tenga sus botones Aprobar/Rechazar bien separados de la otra. */
+.tarjeta-certificacion-panel {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--pub-border);
+  background: var(--pub-card-bg-2);
+  font-size: 13.5px;
+}
+
+.tarjeta-certificacion-panel p {
+  margin: 4px 0;
+}
+
+.aviso-rechazo strong {
+  color: var(--pub-danger);
+}
+
+/* Boton "Rechazar" en los paneles de validacion -- mismo tamano/forma que
+   .boton-panel--secundario, pero con el color reservado para rechazo. */
+.boton-panel--peligro {
+  background: transparent;
+  border: 1px solid var(--pub-danger);
+  color: var(--pub-danger);
+}
+
+.formulario-rechazo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.formulario-rechazo textarea {
+  font: inherit;
+  padding: 9px 12px;
+  border: 1px solid var(--pub-border);
+  border-radius: 8px;
+  background: var(--pub-bg);
+  color: var(--pub-text);
+  resize: vertical;
+  min-height: 64px;
+}
+
+.formulario-rechazo__acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.estado-vacio-panel {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--pub-text-soft);
+  background: var(--pub-card-bg);
+  border: 1px dashed var(--pub-border);
+  border-radius: 16px;
+}
+
+/* Perfil */
+.perfil-avatar-editor {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.perfil-avatar-editor__actual {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--pub-bg-alt);
+  border: 1px solid var(--pub-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--pub-brand);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.perfil-avatar-editor__actual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Parcelas */
+.grid-parcelas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta-parcela {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--pub-card-bg);
+  border: 1px solid var(--pub-border);
+  box-shadow: 0 4px 14px var(--pub-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta-parcela:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px var(--pub-shadow);
+}
+
+.tarjeta-parcela__foto {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background: linear-gradient(135deg, var(--pub-bg-alt), var(--pub-border));
+}
+
+.tarjeta-parcela__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tarjeta-parcela__cuerpo {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tarjeta-parcela__cuerpo strong {
+  font-size: 16px;
+  color: var(--pub-brand);
+}
+
+.badge-cultivo {
+  display: inline-block;
+  width: fit-content;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(var(--pub-accent-2-rgb), 0.22);
+  color: var(--pub-accent-2);
+}
+
+/* Campo "Producto" derivado del cultivo de la parcela elegida (ver
+   Correccion de logica: cosecha hereda el cultivo de la parcela) --
+   badge de solo lectura en vez de un select, para que quede claro que ya
+   no es un dato que el productor elige por separado. */
+.campo-derivado-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.campo-derivado-panel .badge-cultivo {
+  font-size: 13px;
+  padding: 6px 14px;
+}
+
+/* Galeria de fotos */
+.galeria-fotos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.galeria-fotos__grid img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--pub-border);
+}
+
+.boton-subir-foto {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px dashed var(--pub-accent);
+  color: var(--pub-brand);
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Configuracion del sitio (Admin) */
+.configuracion-sitio__preview {
+  width: 100%;
+  max-width: 420px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--pub-border);
+  display: block;
+  margin-bottom: 14px;
+}
+
+/* Preview de fotos aun no enviadas (formulario de Registrar cosecha) */
+.foto-preview-panel {
+  position: relative;
+}
+
+.foto-preview-panel img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--pub-border);
+  display: block;
+}
+
+.foto-preview-panel__quitar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(18, 11, 7, 0.65);
+  color: #fffcf7;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mini mapa (mismo patron que la ficha de trazabilidad publica) */
+.mini-mapa-panel iframe {
+  width: 100%;
+  height: 200px;
+  border: 0;
+  border-radius: 12px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Seguimiento de cosecha */
+.lista-seguimiento {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tarjeta-seguimiento__encabezado {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.tarjeta-seguimiento__encabezado strong {
+  font-size: 16px;
+  color: var(--pub-brand);
+}
+
+/* Certificaciones (fitosanitaria/aduanera) de un registro de exportacion --
+   ver ListaCertificaciones en EtapaListaPage.jsx. */
+.lista-certificaciones-panel {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.badge-exportado {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(var(--pub-success-rgb), 0.16);
+  color: var(--pub-success);
+}
+
+/* Badge "QR emitido" + boton "Descargar PDF" (ver components/panelInterno/
+   DescargaQrLote.jsx), reutilizado en cada panel interno donde aparece un
+   lote (Productor, Cooperativa, Planta, Exportador, Administrador) --
+   mismo componente en los 5, para que el tamaño/texto/ubicacion relativa
+   sea consistente en toda la plataforma. Reemplaza el badge-enlace viejo
+   que solo llevaba a la ficha publica (ahora el PDF se descarga directo
+   desde el panel, ver lib/fichaPdf.js). */
+.descarga-qr-panel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.descarga-qr-panel .badge-exportado {
+  margin-top: 0;
+}
+
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.stepper__paso {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 110px;
+}
+
+.stepper__paso::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--pub-border);
+  margin: 0 6px;
+}
+
+.stepper__paso:last-child::after {
+  display: none;
+}
+
+.stepper__punto {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pub-border);
+  flex-shrink: 0;
+  display: block;
+}
+
+.stepper__etiqueta {
+  margin-left: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--pub-text-soft);
+  white-space: nowrap;
+}
+
+.stepper__paso.completo .stepper__punto {
+  background: var(--pub-accent);
+}
+
+.stepper__paso.completo::after {
+  background: var(--pub-accent);
+}
+
+.stepper__paso.completo .stepper__etiqueta {
+  color: var(--pub-text);
+}
+
+.stepper__paso.actual .stepper__punto {
+  background: var(--pub-accent);
+  box-shadow: 0 0 0 4px rgba(var(--pub-accent-rgb), 0.22);
+}
+
+.stepper__paso.actual .stepper__etiqueta {
+  color: var(--pub-brand);
+}
+
+@media (max-width: 640px) {
+  .stepper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .stepper__paso {
+    width: 100%;
+  }
+
+  .stepper__paso::after {
+    display: none;
+  }
+}
+
+/* Detalle por etapa de Seguimiento: reutiliza .linea-tiempo de publico.css
+   (misma ficha visual que /trazabilidad/:codigo), pero aqui se muestran las
+   6 etapas siempre -- incluidas las que todavia no llegan -- asi que se
+   necesita distinguir visualmente pendiente/actual/completo. */
+.linea-tiempo__item--pendiente {
+  opacity: 0.45;
+}
+
+.linea-tiempo__item--pendiente .linea-tiempo__punto {
+  background: var(--pub-border);
+}
+
+.linea-tiempo__item--actual .linea-tiempo__punto {
+  box-shadow: 0 0 0 4px rgba(var(--pub-accent-rgb), 0.22);
+}
+
+/* Etapa rechazada, en corregir: mismo trato que "actual" (opacidad
+   completa, sigue siendo lo que esta en curso ahora) pero con el color de
+   rechazo en vez del acento de marca. */
+.linea-tiempo__item--rechazado .linea-tiempo__punto {
+  box-shadow: 0 0 0 4px rgba(var(--pub-danger-rgb), 0.22);
+  background: var(--pub-danger);
+}
+
+.linea-tiempo__item--rechazado .linea-tiempo__fecha {
+  color: var(--pub-danger);
+  font-weight: 600;
+}
